@@ -2,16 +2,18 @@ class Main {
 
 }
 fun main(){
-    //potions
-    val drop1 = Potion("Healing potion", "Heals the player for 10 HP", 1, 10, 0)
-    val drop2 = Potion("Healing potion", "Heals the player for 10 HP", 2, 0, 10)
 
+    val drop1 = Potion("Healing potion", "Heals the player for 10 HP", 1, 10, 0)
+    val drop2 = Potion("Mana potion", "Restores 10 mana", 2, 0, 10)
     print("Enter your name: ")
     val nameInput = readln()
     var player = Player(nameInput, 30, 10, 30, 1, 0, mutableListOf())
+    var potion = Potion("Name", "desc", 0, 0, 0)
     var monster = Monster("placeholder", 30, 10, 10, drop1)
     var fighting = false
 
+
+    //potions
 
     fun createMonster(){
         if (!fighting){
@@ -44,6 +46,7 @@ fun main(){
         println("2) Magic")
         println("3) Wait")
         println("4) Inventory")
+        println("5) Use potion")
 
         var userInput = readln()
         when (userInput.lowercase().trim()){
@@ -51,9 +54,11 @@ fun main(){
             "magic" -> player.MagicAttack(monster, player)
             "wait" -> println("You reconsider your approach.")
             "inventory" -> player.openInventory(player)
+            "use item" -> player.usePotion(potion, player)
             else -> {
                 println("Invalid input.")
             }
+
         }
         if (monster.hp <= 0){
             println("You've slain the monster!")
