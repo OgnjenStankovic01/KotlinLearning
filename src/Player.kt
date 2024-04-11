@@ -1,29 +1,29 @@
 class Player constructor(var name: String, var hp: Int, var attack: Int, var mana: Int, var level: Int, var xp: Int, var potionInventory: MutableList<Potion>, var position: Position) {
-    fun Attack(monster: Monster,player: Player){
-        if (player.hp >0 && monster.hp > 0){
-            println("You attack the monster for " + player.attack * player.level+ " damage!")
-            monster.hp -= player.attack * player.level
+    fun Attack(monster: Monster){
+        if (hp >0 && monster.hp > 0){
+            println("You attack the monster for " + attack * level+ " damage!")
+            monster.hp -= attack * level
         }
     }
-    fun MagicAttack(monster: Monster, player: Player){
-        if(player.mana >= 10){
-            println("You cast a firebolt! for "+ (player.attack * 2).times(player.level) + " damage!")
-            monster.hp -= (player.attack * 2).times(player.level)
-            player.mana -= 10
+    fun MagicAttack(monster: Monster){
+        if(mana >= 10){
+            println("You cast a firebolt! for "+ (attack * 2).times(level) + " damage!")
+            monster.hp -= (attack * 2).times(level)
+            mana -= 10
         }
         else{
             println("You don't have enough mana!")
         }
     }
-    fun levelUp(player: Player){
+    fun levelUp(){
         println("You've levelled up!")
-        player.level += 1
-        player.xp = 0
+        level += 1
+        xp = 0
     }
     fun addItem(potion: Potion) {
         potionInventory.add(potion)
     }
-    fun openInventory(player: Player) {
+    fun openInventory() {
        for (item in potionInventory){
            println(item.name)
            println(item.desc)
@@ -39,14 +39,23 @@ class Player constructor(var name: String, var hp: Int, var attack: Int, var man
         }
         potionInventory.remove(potion)
     }
-    fun playerMovement(position: Position){
+    fun playerMovement(){
+        /*
+        Removed function parameter because of the redundancy:
+        When calling a method over an object, the object is already
+        included, so there is no need to pass any of its attributes
+
+        Removed "this" references because of the redundancy:
+        If there are no local variables with the same name as attribute,
+        there is no need to use "this", since it is already reachable and default
+         */
+        println("Choose where to move? (North, south, east, west): {x:${position.x}, y: ${position.y}}")
         var movementInput = readln()
-        println("Choose where to move? (North, south, east, west): {x:${this.position.x}, y: ${this.position.y}}")
         when (movementInput.lowercase().trim()) {
-            "north" -> this.position.y += 1
-            "south" -> this.position.y -=1
-            "east" -> this.position.x -=1
-            "west" -> this.position.x += 1
+            "north" -> position.y += 1
+            "south" -> position.y -=1
+            "east" -> position.x -=1
+            "west" -> position.x += 1
             else -> println("Choose a proper direction. ")
         }
     }
