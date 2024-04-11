@@ -8,7 +8,6 @@ fun main() {
     var drop: Potion = potion
 
 
-    println("Choose where to move? (North, south, east, west): {x:${player.position.x}, y: ${player.position.y}}")
 
     var ghoul1 = Monster("Ghoul", 50, 20, 20, drop)
     var orc1 = Monster("Orc", 80, 15, 20, drop)
@@ -25,13 +24,16 @@ fun main() {
 
     // Exploring the map and encountering monsters
     while (!fighting) {
-        player.playerMovement(player.position)
+
+        // I think this is shorter and more intuitive
+
         if (worldMap.containsKey(player.position)) {
             println("You've encountered a monster")
             val monster = worldMap[player.position]!!
             fighting = true
             combatLoop(player, monster)
         }
+        player.playerMovement()
     }
 
 }
@@ -48,10 +50,10 @@ fun combatLoop(player: Player, monster: Monster) {
 
         val userInput = readLine()?.lowercase()?.trim()
         when (userInput) {
-            "attack" -> player.Attack(monster, player)
-            "magic" -> player.MagicAttack(monster, player)
+            "attack" -> player.Attack(monster)
+            "magic" -> player.MagicAttack(monster)
             "wait" -> println("You reconsider your approach.")
-            "inventory" -> player.openInventory(player)
+            "inventory" -> player.openInventory()
             "use potion" -> {
                 if (player.potionInventory.isEmpty()) {
                     println("You don't have any potions!")
