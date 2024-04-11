@@ -7,7 +7,7 @@ class Position(var x: Int, var y: Int){
     }
 
     override fun hashCode(): Int {
-        var result = x
+        var resuclt = x
         result = 31 * result + y
         return result
     }
