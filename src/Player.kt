@@ -1,4 +1,4 @@
-class Player constructor(var name: String, var hp: Int, var attack: Int, var mana: Int, var level: Int, var xp: Int, var potionInventory: MutableList<Item>) {
+class Player constructor(var name: String, var hp: Int, var attack: Int, var mana: Int, var level: Int, var xp: Int, var potionInventory: MutableList<Potion>, var position: Position) {
     fun Attack(monster: Monster,player: Player){
         if (player.hp >0 && monster.hp > 0){
             println("You attack the monster for " + player.attack * player.level+ " damage!")
@@ -20,29 +20,34 @@ class Player constructor(var name: String, var hp: Int, var attack: Int, var man
         player.level += 1
         player.xp = 0
     }
-    fun addItem(item: Item) {
-        potionInventory.add(item)
+    fun addItem(potion: Potion) {
+        potionInventory.add(potion)
     }
-    fun openInventory(player: Player){
+    fun openInventory(player: Player) {
        for (item in potionInventory){
            println(item.name)
+           println(item.desc)
        }
     }
-    fun usePotion(potion: Potion, player: Player) {
-        player.openInventory(player)
-        println("Which potion do you want to use? (type the potion name): ")
-
-        var userInput = readln()
-        when (userInput.lowercase().trim()){
-            "healing potion" -> if (player.potionInventory.any {it.id == 1}){
-                potion.useHealingPotion(potion,player)
-            }
-            "mana potion" -> if (player.potionInventory.any {it.id == 2}){
-                potion.useManaPotion(potion,player)
-            }
-            else -> {
-                println("You have no potions of that type.")
-            }
+    fun usePotion(potion: Potion) {
+        if (potion.healing > 0) {
+            println("You use the healing potion, restoring ${potion.healing} HP!")
+            hp += potion.healing
+        } else if (potion.manaHealing > 0) {
+            println("You use the mana potion and restore ${potion.manaHealing} MP!")
+            mana += potion.manaHealing
+        }
+        potionInventory.remove(potion)
+    }
+    fun playerMovement(position: Position){
+        var movementInput = readln()
+        println("Choose where to move? (North, south, east, west): {x:${this.position.x}, y: ${this.position.y}}")
+        when (movementInput.lowercase().trim()) {
+            "north" -> this.position.y += 1
+            "south" -> this.position.y -=1
+            "east" -> this.position.x -=1
+            "west" -> this.position.x += 1
+            else -> println("Choose a proper direction. ")
         }
     }
 

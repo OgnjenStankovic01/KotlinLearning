@@ -1,45 +1,43 @@
-class Main {
-
-}
-fun main(){
-
-    val drop1 = Potion("Healing potion", "Heals the player for 10 HP", 1, 10, 0)
-    val drop2 = Potion("Mana potion", "Restores 10 mana", 2, 0, 10)
+class Position(var x: Int, var y: Int)
+var fighting = false
+fun main() {
     print("Enter your name: ")
-    val nameInput = readln()
-    var player = Player(nameInput, 30, 10, 30, 1, 0, mutableListOf())
+    val nameInput = readLine()
+    var player = Player(nameInput ?: "", 30, 10, 30, 1, 0, mutableListOf(), Position(0, 0))
     var potion = Potion("Name", "desc", 0, 0, 0)
-    var monster = Monster("placeholder", 30, 10, 10, drop1)
-    var fighting = false
+    var drop: Potion = potion
 
 
-    //potions
+    println("Choose where to move? (North, south, east, west): {x:${player.position.x}, y: ${player.position.y}}")
 
-    fun createMonster(){
-        if (!fighting){
-            val rng = (0..3).random()
-            if (player.level == 1){
-                when (rng) {
-                    0 -> monster = Monster("Ghoul", 50, 20, 20, drop2)
-                    1 -> monster = Monster("Orc", 80, 15, 20, drop1)
-                    2 -> monster = Monster("Skeleton", 20, 20, 15, drop2)
-                    3 -> monster = Monster("Goblin", 30, 10, 10,drop1)
-                }
-            }
-            else if (player.level > 1){
-                when (rng) {
-                    0 -> monster = Monster("Ghoul", 80, 20, 20, drop2)
-                    1 -> monster = Monster("Orc", 100, 15, 20, drop1)
-                    2 -> monster = Monster("Skeleton", 60, 20, 15, drop2)
-                    3 -> monster = Monster("Goblin", 55, 10, 10,drop1)
-                }
-            }
+    var ghoul1 = Monster("Ghoul", 50, 20, 20, drop)
+    var orc1 = Monster("Orc", 80, 15, 20, drop)
+    var skeleton1 = Monster("Skeleton", 20, 20, 15, drop)
+    var goblin1 = Monster("Goblin", 30, 10, 10, drop)
+
+    // Overworld map and monster generation
+    var worldMap: HashMap<Position, Monster> = hashMapOf(
+        Position(0, 0) to ghoul1,
+        Position(1, 1) to orc1,
+        Position(1, 2) to skeleton1,
+        Position(1, 3) to goblin1
+    )
+
+    // Exploring the map and encountering monsters
+    while (!fighting) {
+        player.playerMovement(player.position)
+        if (worldMap.containsKey(player.position)) {
+            println("You've encountered a monster")
+            val monster = worldMap[player.position]!!
             fighting = true
+            combatLoop(player, monster)
         }
     }
-    createMonster()
-    while (player.hp > 0 && monster.hp > 0 && fighting){
 
+}
+
+fun combatLoop(player: Player, monster: Monster) {
+    while (player.hp > 0 && monster.hp > 0) {
         println("""${player.name}'s health : ${player.hp}, ${monster.name}'s health: ${monster.hp}""")
         println("Choose your actions: ")
         println("1) Attack")
@@ -48,28 +46,42 @@ fun main(){
         println("4) Inventory")
         println("5) Use potion")
 
-        var userInput = readln()
-        when (userInput.lowercase().trim()){
+        val userInput = readLine()?.lowercase()?.trim()
+        when (userInput) {
             "attack" -> player.Attack(monster, player)
             "magic" -> player.MagicAttack(monster, player)
             "wait" -> println("You reconsider your approach.")
             "inventory" -> player.openInventory(player)
-            "use item" -> player.usePotion(potion, player)
-            else -> {
-                println("Invalid input.")
+            "use potion" -> {
+                if (player.potionInventory.isEmpty()) {
+                    println("You don't have any potions!")
+                } else {
+                    println("Select a potion to use:")
+                    for ((index, potion) in player.potionInventory.withIndex()) {
+                        println("${index + 1}) ${potion.name}")
+                    }
+                    val potionIndex = readLine()?.toIntOrNull()
+                    if (potionIndex != null && potionIndex >= 1 && potionIndex <= player.potionInventory.size) {
+                        val selectedPotion = player.potionInventory[potionIndex - 1]
+                        player.usePotion(selectedPotion)
+                    } else {
+                        println("Invalid input. Please enter a valid potion number.")
+                    }
+                }
             }
-
+            else -> println("Invalid input.")
         }
-        if (monster.hp <= 0){
+
+        // Check if combat should end
+        if (player.hp <= 0) {
+            println("Oh dear, you've died.")
+            break
+        } else if (monster.hp <= 0) {
             println("You've slain the monster!")
             println("You gain ${monster.xp} XP!")
             player.xp += monster.xp
             player.addItem(monster.drop)
             fighting = false
-            createMonster()
-        }
-        if (player.xp >= 30){
-            player.levelUp(player)
         }
     }
 }
