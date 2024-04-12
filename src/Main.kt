@@ -7,7 +7,7 @@ class Position(var x: Int, var y: Int){
     }
 
     override fun hashCode(): Int {
-        var resuclt = x
+        var result = x
         result = 31 * result + y
         return result
     }
@@ -43,6 +43,7 @@ fun main() {
         if (worldMap.containsKey(player.position)) {
             println("You've encountered a monster")
             val monster = worldMap[player.position]!!
+            monster.monsterDrop()
             fighting = true
             combatLoop(player, monster)
         }

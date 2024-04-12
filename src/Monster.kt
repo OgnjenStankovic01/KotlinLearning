@@ -7,7 +7,7 @@ class Monster constructor(var name: String, var hp: Int, var attack: Int, var xp
             player.hp =- attack
         }
     }
-    fun monsterDrop(item: Item): Potion {
+    fun monsterDrop(): Potion {
         val rng = (0..3).random()
         return when (rng) {
             0 -> Potion("Healing potion", "Heals the player for 10 HP", 1, 10, 0)
