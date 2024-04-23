@@ -31,19 +31,6 @@ fun main() {
         Position(1, 2) to skeleton1,
         Position(1, 3) to goblin1
     )
-    for (a in 0..5){
-        for (b in 0..5){
-            var currentPos= Position(a,b)
-            worldMap.containsKey(currentPos)
-            var m = worldMap.get(currentPos)
-            if (m != null) {
-                println(m.icon)
-            }
-            else{
-                print('X')
-            }
-        }
-    }
     // Exploring the map and encountering monsters
     while (!fighting) {
         // I think this is shorter and more intuitive
@@ -54,9 +41,33 @@ fun main() {
             fighting = true
             combatLoop(player, monster)
         }
+        drawWorldMap(worldMap)
         player.playerMovement()
     }
 }
+
+private fun drawWorldMap(worldMap: HashMap<Position, Monster>) {
+    for (a in 0..5) {
+        for (b in 0..5) {
+            var currentPos = Position(a, b)
+            if (worldMap.containsKey(currentPos)) {
+                var monster = worldMap.get(currentPos)
+                if (monster != null) {
+                      print(" ${monster.icon} ")
+                    }
+                }
+            else{
+                print(" X ")
+            }
+
+        }
+        println()
+
+
+    }
+    }
+
+
 fun combatLoop(player: Player, monster: Monster) {
     while (player.hp > 0 && monster.hp > 0) {
         println("""${player.name}'s health : ${player.hp}, ${monster.name}'s health: ${monster.hp}""")
