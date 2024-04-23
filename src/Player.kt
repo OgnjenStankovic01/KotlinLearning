@@ -1,4 +1,4 @@
-class Player constructor(var name: String, var hp: Int, var attack: Int, var mana: Int, var level: Int, var xp: Int, var potionInventory: MutableList<Potion>, var position: Position) {
+class Player constructor(var name: String, var hp: Int, var maxHp: Int, var attack: Int, var mana: Int, var level: Int, var xp: Int, var potionInventory: MutableList<Potion>, var position: Position) {
     fun Attack(monster: Monster){
         if (hp >0 && monster.hp > 0){
             println("You attack the monster for " + attack * level+ " damage!")
@@ -16,9 +16,14 @@ class Player constructor(var name: String, var hp: Int, var attack: Int, var man
         }
     }
     fun levelUp(){
-        println("You've levelled up!")
-        level += 1
-        xp = 0
+        val xpThreshold: Int = 30
+        if (xp == xpThreshold){
+            println("You've levelled up!")
+            level += 1
+            xp = 0
+            maxHp *= 2
+            hp = maxHp
+        }
     }
     fun addItem(potion: Potion) {
         potionInventory.add(potion)

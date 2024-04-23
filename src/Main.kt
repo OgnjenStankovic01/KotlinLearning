@@ -5,7 +5,6 @@ class Position(var x: Int, var y: Int){
                 return true
         return false
     }
-
     override fun hashCode(): Int {
         var result = x
         result = 31 * result + y
@@ -16,11 +15,9 @@ var fighting = false
 fun main() {
     print("Enter your name: ")
     val nameInput = readLine()
-    var player = Player(nameInput ?: "", 30, 10, 30, 1, 0, mutableListOf(), Position(0, 0))
+    var player = Player(nameInput ?: "", 30, 30, 10, 30, 1, 0, mutableListOf(), Position(0, 0))
     var potion = Potion("Name", "desc", 0, 0, 0)
     var drop: Potion = potion
-
-
 
     var ghoul1 = Monster("Ghoul", 50, 20, 20, drop)
     var orc1 = Monster("Orc", 80, 15, 20, drop)
@@ -34,24 +31,23 @@ fun main() {
         Position(1, 2) to skeleton1,
         Position(1, 3) to goblin1
     )
-
     // Exploring the map and encountering monsters
     while (!fighting) {
-
         // I think this is shorter and more intuitive
-
         if (worldMap.containsKey(player.position)) {
             println("You've encountered a monster")
             val monster = worldMap[player.position]!!
+<<<<<<< Updated upstream
             monster.monsterDrop()
+=======
+            monster.drop = monster.monsterDrop();
+>>>>>>> Stashed changes
             fighting = true
             combatLoop(player, monster)
         }
         player.playerMovement()
     }
-
 }
-
 fun combatLoop(player: Player, monster: Monster) {
     while (player.hp > 0 && monster.hp > 0) {
         println("""${player.name}'s health : ${player.hp}, ${monster.name}'s health: ${monster.hp}""")
@@ -87,7 +83,6 @@ fun combatLoop(player: Player, monster: Monster) {
             }
             else -> println("Invalid input.")
         }
-
         // Check if combat should end
         if (player.hp <= 0) {
             println("Oh dear, you've died.")
@@ -96,6 +91,8 @@ fun combatLoop(player: Player, monster: Monster) {
             println("You've slain the monster!")
             println("You gain ${monster.xp} XP!")
             player.xp += monster.xp
+            //check for level-up
+            player.levelUp()
             player.addItem(monster.drop)
             fighting = false
         }

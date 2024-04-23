@@ -1,5 +1,4 @@
 class Monster constructor(var name: String, var hp: Int, var attack: Int, var xp: Int, var drop: Potion) {
-
     //again, redundant in OOP
     fun monsterAttack(player: Player){
         if (hp > 0){
@@ -16,7 +15,6 @@ class Monster constructor(var name: String, var hp: Int, var attack: Int, var xp
             3 -> Potion("Mana potion", "Restores 10 mana", 2, 0, 10)
             else -> throw IllegalStateException("Invalid drop")
             // if you plan on using this, you need to handle the exception or make it try/catch
-
         }
     }
 }
