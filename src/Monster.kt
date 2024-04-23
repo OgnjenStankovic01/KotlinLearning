@@ -1,4 +1,4 @@
-class Monster constructor(var name: String, var hp: Int, var attack: Int, var xp: Int, var drop: Potion) {
+class Monster constructor(var name: String, var hp: Int, var attack: Int, var xp: Int, var drop: Potion, var icon : Char) {
     //again, redundant in OOP
     fun monsterAttack(player: Player){
         if (hp > 0){

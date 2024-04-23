@@ -1,4 +1,4 @@
-class Player constructor(var name: String, var hp: Int, var maxHp: Int, var attack: Int, var mana: Int, var level: Int, var xp: Int, var potionInventory: MutableList<Potion>, var position: Position) {
+class Player constructor(var name: String, var hp: Int, var maxHp: Int, var attack: Int, var mana: Int, var level: Int, var xp: Int, var potionInventory: MutableList<Potion>, var position: Position, var icon : Char) {
     fun Attack(monster: Monster){
         if (hp >0 && monster.hp > 0){
             println("You attack the monster for " + attack * level+ " damage!")

@@ -15,14 +15,14 @@ var fighting = false
 fun main() {
     print("Enter your name: ")
     val nameInput = readLine()
-    var player = Player(nameInput ?: "", 30, 30, 10, 30, 1, 0, mutableListOf(), Position(0, 0))
+    var player = Player(nameInput ?: "", 30, 30, 10, 30, 1, 0, mutableListOf(), Position(0, 0), 'Ø')
     var potion = Potion("Name", "desc", 0, 0, 0)
     var drop: Potion = potion
 
-    var ghoul1 = Monster("Ghoul", 50, 20, 20, drop)
-    var orc1 = Monster("Orc", 80, 15, 20, drop)
-    var skeleton1 = Monster("Skeleton", 20, 20, 15, drop)
-    var goblin1 = Monster("Goblin", 30, 10, 10, drop)
+    var ghoul1 = Monster("Ghoul", 50, 20, 20, drop, 'Ĝ')
+    var orc1 = Monster("Orc", 80, 15, 20, drop, 'Ŏ')
+    var skeleton1 = Monster("Skeleton", 20, 20, 15, drop, 'Ś')
+    var goblin1 = Monster("Goblin", 30, 10, 10, drop, 'ĝ')
 
     // Overworld map and monster generation
     var worldMap: HashMap<Position, Monster> = hashMapOf(
@@ -31,17 +31,16 @@ fun main() {
         Position(1, 2) to skeleton1,
         Position(1, 3) to goblin1
     )
+    worldMap.forEach { (Position, Monster) ->
+        println(Monster.icon)
+    }
     // Exploring the map and encountering monsters
     while (!fighting) {
         // I think this is shorter and more intuitive
         if (worldMap.containsKey(player.position)) {
             println("You've encountered a monster")
             val monster = worldMap[player.position]!!
-<<<<<<< Updated upstream
-            monster.monsterDrop()
-=======
             monster.drop = monster.monsterDrop();
->>>>>>> Stashed changes
             fighting = true
             combatLoop(player, monster)
         }
@@ -98,3 +97,4 @@ fun combatLoop(player: Player, monster: Monster) {
         }
     }
 }
+
