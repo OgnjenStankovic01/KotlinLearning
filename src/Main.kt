@@ -47,9 +47,9 @@ fun main() {
 }
 
 private fun drawWorldMap(worldMap: HashMap<Position, Monster>) {
-    for (a in 0..5) {
-        for (b in 0..5) {
-            var currentPos = Position(a, b)
+    for (x in 0..5) {
+        for (y in 0..5) {
+            var currentPos = Position(x, y)
             if (worldMap.containsKey(currentPos)) {
                 var monster = worldMap.get(currentPos)
                 if (monster != null) {
@@ -62,8 +62,6 @@ private fun drawWorldMap(worldMap: HashMap<Position, Monster>) {
 
         }
         println()
-
-
     }
     }
 
