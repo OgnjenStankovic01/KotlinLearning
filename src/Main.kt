@@ -33,16 +33,15 @@ fun main() {
     )
     for (a in 0..5){
         for (b in 0..5){
-            var currentPos= Position(a,b)
-            worldMap.containsKey(currentPos)
-            var m = worldMap.get(currentPos)
-            if (m != null) {
-                println(m.icon)
+            var currentPos= Position(a,b) // shorter, no unnecessary variables
+            if (worldMap.containsKey(currentPos)) {
+                print(worldMap.get(currentPos)!!.icon + "\t")
             }
             else{
-                print('X')
+                print("X\t")
             }
         }
+        println()
     }
     // Exploring the map and encountering monsters
     while (!fighting) {
