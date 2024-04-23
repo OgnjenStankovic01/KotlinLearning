@@ -31,8 +31,18 @@ fun main() {
         Position(1, 2) to skeleton1,
         Position(1, 3) to goblin1
     )
-    worldMap.forEach { (Position, Monster) ->
-        println(Monster.icon)
+    for (a in 0..5){
+        for (b in 0..5){
+            var currentPos= Position(a,b)
+            worldMap.containsKey(currentPos)
+            var m = worldMap.get(currentPos)
+            if (m != null) {
+                println(m.icon)
+            }
+            else{
+                print('X')
+            }
+        }
     }
     // Exploring the map and encountering monsters
     while (!fighting) {
