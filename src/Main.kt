@@ -39,7 +39,7 @@ fun main() {
             val monster = worldMap[player.position]!!
             monster.drop = monster.monsterDrop();
             fighting = true
-            combatLoop(player, monster)
+            combatLoop(player, monster, worldMap)
         }
         drawWorldMap(worldMap)
         player.playerMovement()
@@ -66,7 +66,7 @@ private fun drawWorldMap(worldMap: HashMap<Position, Monster>) {
     }
 
 
-fun combatLoop(player: Player, monster: Monster) {
+fun combatLoop(player: Player, monster: Monster, worldMap: HashMap<Position, Monster>) {
     while (player.hp > 0 && monster.hp > 0) {
         println("""${player.name}'s health : ${player.hp}, ${monster.name}'s health: ${monster.hp}""")
         println("Choose your actions: ")
@@ -113,6 +113,7 @@ fun combatLoop(player: Player, monster: Monster) {
             player.levelUp()
             player.addItem(monster.drop)
             fighting = false
+            worldMap.remove(player.position)
         }
     }
 }
