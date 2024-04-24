@@ -26,19 +26,20 @@ fun main() {
     var goblin1 = Monster("Goblin", 30, 10, 10, drop, 'ĝ')
 
     // Overworld map and monster generation
-    var worldMap: HashMap<Position, Monster> = hashMapOf(
-        Position(0, 0) to ghoul1,
+    var worldMap: HashMap<Position, Being> = hashMapOf(
+        Position(4, 4) to ghoul1,
         Position(1, 1) to orc1,
         Position(1, 2) to skeleton1,
         Position(1, 3) to goblin1
     )
+    worldMap.put(player.position,player);
     // Exploring the map and encountering monsters
     while (!fighting) {
-        // I think this is shorter and more intuitive
-        if (worldMap.containsKey(player.position)) {
+        if (worldMap.containsKey(player.position)  && worldMap.getValue(player.position) != player ) {
             println("You've encountered a monster")
             val monster = worldMap[player.position]!!
-            monster.drop = monster.monsterDrop()
+            //REFACTOR THIS
+            //monster.drop = monster.monsterDrop()
             fighting = true
             combatLoop(player, monster, worldMap)
         }
@@ -47,7 +48,7 @@ fun main() {
     }
 }
 
-private fun drawWorldMap(worldMap: HashMap<Position, Monster>) {
+private fun drawWorldMap(worldMap: HashMap<Position, Being>) {
     for (x in 0..5) {
         for (y in 0..5) {
             var currentPos = Position(x, y)
@@ -67,7 +68,7 @@ private fun drawWorldMap(worldMap: HashMap<Position, Monster>) {
     }
 
 
-fun combatLoop(player: Player, monster: Monster, worldMap: HashMap<Position, Monster>) {
+fun combatLoop(player: Player, monster: Being, worldMap: HashMap<Position, Being>) {
     while (player.hp > 0 && monster.hp > 0) {
         println("""${player.name}'s health : ${player.hp}, ${monster.name}'s health: ${monster.hp}""")
         println("Choose your actions: ")
@@ -112,7 +113,8 @@ fun combatLoop(player: Player, monster: Monster, worldMap: HashMap<Position, Mon
             player.xp += monster.xp
             //check for level-up
             player.levelUp()
-            player.addItem(monster.drop)
+            //REFACTOR THIS
+            //player.addItem(monster.drop)
             fighting = false
             worldMap.remove(player.position)
         }

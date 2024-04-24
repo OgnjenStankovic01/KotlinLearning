@@ -1,0 +1,1 @@
+open class Being (var name: String, var hp: Int, var attack: Int, var xp: Int, var icon : Char)
