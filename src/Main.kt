@@ -32,9 +32,11 @@ fun main() {
         Position(1, 2) to skeleton1,
         Position(1, 3) to goblin1
     )
-    worldMap.put(player.position,player);
     // Exploring the map and encountering monsters
     while (!fighting) {
+        worldMap.put(player.position, player)
+        drawWorldMap(worldMap)
+        player.playerMovement()
         if (worldMap.containsKey(player.position)  && worldMap.getValue(player.position) != player ) {
             println("You've encountered a monster")
             val monster = worldMap[player.position]!!
@@ -43,8 +45,7 @@ fun main() {
             fighting = true
             combatLoop(player, monster, worldMap)
         }
-        drawWorldMap(worldMap)
-        player.playerMovement()
+        worldMap.remove(player.position)
     }
 }
 

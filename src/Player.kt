@@ -57,10 +57,10 @@ class Player (name: String,hp: Int,  var maxHp: Int, attack: Int, var mana: Int,
         println("Choose where to move? (North, south, east, west): {x:${position.x}, y: ${position.y}}")
         var movementInput = readln()
         when (movementInput.lowercase().trim()) {
-            "north" -> position.y += 1
-            "south" -> position.y -=1
-            "east" -> position.x -=1
-            "west" -> position.x += 1
+            "north" -> position.x -= 1
+            "south" -> position.x +=1
+            "east" -> position.y +=1
+            "west" -> position.y -= 1
             else -> println("Choose a proper direction. ")
         }
     }
