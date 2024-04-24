@@ -1,11 +1,11 @@
-class Player constructor(var name: String, var hp: Int, var maxHp: Int, var attack: Int, var mana: Int, var level: Int, var xp: Int, var potionInventory: MutableList<Potion>, var position: Position, var icon : Char) {
-    fun Attack(monster: Monster){
+class Player (name: String,hp: Int,  var maxHp: Int, attack: Int, var mana: Int, var level: Int, xp: Int, var potionInventory: MutableList<Potion>, var position: Position,icon: Char ) : Being(name, hp, attack, xp, icon) {
+    fun Attack(monster: Being){
         if (hp >0 && monster.hp > 0){
             println("You attack the monster for " + attack * level+ " damage!")
             monster.hp -= attack * level
         }
     }
-    fun MagicAttack(monster: Monster){
+    fun MagicAttack(monster: Being){
         if(mana >= 10){
             println("You cast a firebolt! for "+ (attack * 2).times(level) + " damage!")
             monster.hp -= (attack * 2).times(level)

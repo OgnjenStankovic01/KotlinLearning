@@ -1,4 +1,4 @@
-class Monster constructor(var name: String, var hp: Int, var attack: Int, var xp: Int, var drop: Potion, var icon : Char) {
+class Monster(name: String, hp: Int,  attack: Int, xp: Int,var drop: Potion,icon : Char ) : Being(name,hp,attack,xp,icon) {
     //again, redundant in OOP
     fun monsterAttack(player: Player){
         if (hp > 0){
@@ -6,6 +6,7 @@ class Monster constructor(var name: String, var hp: Int, var attack: Int, var xp
             player.hp =- attack
         }
     }
+
     fun monsterDrop(): Potion {
         val rng = (0..3).random()
         return when (rng) {

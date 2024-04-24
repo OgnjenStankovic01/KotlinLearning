@@ -11,6 +11,7 @@ class Position(var x: Int, var y: Int){
         return result
     }
 }
+
 var fighting = false
 fun main() {
     print("Enter your name: ")
@@ -25,38 +26,49 @@ fun main() {
     var goblin1 = Monster("Goblin", 30, 10, 10, drop, 'ĝ')
 
     // Overworld map and monster generation
-    var worldMap: HashMap<Position, Monster> = hashMapOf(
-        Position(0, 0) to ghoul1,
+    var worldMap: HashMap<Position, Being> = hashMapOf(
+        Position(4, 4) to ghoul1,
         Position(1, 1) to orc1,
         Position(1, 2) to skeleton1,
         Position(1, 3) to goblin1
     )
-    for (a in 0..5){
-        for (b in 0..5){
-            var currentPos= Position(a,b) // shorter, no unnecessary variables
-            if (worldMap.containsKey(currentPos)) {
-                print(worldMap.get(currentPos)!!.icon + "\t")
-            }
-            else{
-                print("X\t")
-            }
-        }
-        println()
-    }
+    worldMap.put(player.position,player);
     // Exploring the map and encountering monsters
     while (!fighting) {
-        // I think this is shorter and more intuitive
-        if (worldMap.containsKey(player.position)) {
+        if (worldMap.containsKey(player.position)  && worldMap.getValue(player.position) != player ) {
             println("You've encountered a monster")
             val monster = worldMap[player.position]!!
-            monster.drop = monster.monsterDrop();
+            //REFACTOR THIS
+            //monster.drop = monster.monsterDrop()
             fighting = true
-            combatLoop(player, monster)
+            combatLoop(player, monster, worldMap)
         }
+        drawWorldMap(worldMap)
         player.playerMovement()
     }
 }
-fun combatLoop(player: Player, monster: Monster) {
+
+private fun drawWorldMap(worldMap: HashMap<Position, Being>) {
+    for (x in 0..5) {
+        for (y in 0..5) {
+            var currentPos = Position(x, y)
+            if (worldMap.containsKey(currentPos)) {
+                var monster = worldMap[currentPos]
+                if (monster != null) {
+                      print(" ${monster.icon} ")
+                    }
+                }
+            else{
+                print(" X ")
+            }
+
+        }
+        println()
+    }
+    }
+
+
+fun combatLoop(player: Player, monster: Being, worldMap: HashMap<Position, Being>) {
     while (player.hp > 0 && monster.hp > 0) {
         println("""${player.name}'s health : ${player.hp}, ${monster.name}'s health: ${monster.hp}""")
         println("Choose your actions: ")
@@ -101,8 +113,10 @@ fun combatLoop(player: Player, monster: Monster) {
             player.xp += monster.xp
             //check for level-up
             player.levelUp()
-            player.addItem(monster.drop)
+            //REFACTOR THIS
+            //player.addItem(monster.drop)
             fighting = false
+            worldMap.remove(player.position)
         }
     }
 }
