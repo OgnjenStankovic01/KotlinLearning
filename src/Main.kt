@@ -11,6 +11,7 @@ class Position(var x: Int, var y: Int){
         return result
     }
 }
+
 var fighting = false
 fun main() {
     print("Enter your name: ")
@@ -37,7 +38,7 @@ fun main() {
         if (worldMap.containsKey(player.position)) {
             println("You've encountered a monster")
             val monster = worldMap[player.position]!!
-            monster.drop = monster.monsterDrop();
+            monster.drop = monster.monsterDrop()
             fighting = true
             combatLoop(player, monster, worldMap)
         }
@@ -51,7 +52,7 @@ private fun drawWorldMap(worldMap: HashMap<Position, Monster>) {
         for (y in 0..5) {
             var currentPos = Position(x, y)
             if (worldMap.containsKey(currentPos)) {
-                var monster = worldMap.get(currentPos)
+                var monster = worldMap[currentPos]
                 if (monster != null) {
                       print(" ${monster.icon} ")
                     }
