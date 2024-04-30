@@ -35,11 +35,10 @@ fun main() {
     worldMap.put(player.position,player);
     // Exploring the map and encountering monsters
     while (!fighting) {
-        if (worldMap.containsKey(player.position)  && worldMap.getValue(player.position) != player ) {
+        if (worldMap.containsKey(player.position)  && worldMap.getValue(player.position) != player) {
             println("You've encountered a monster")
-            val monster = worldMap[player.position]!!
-            //REFACTOR THIS
-            //monster.drop = monster.monsterDrop()
+            val monster = (worldMap[player.position] as Monster)
+            monster.drop = monster.monsterDrop()
             fighting = true
             combatLoop(player, monster, worldMap)
         }
@@ -70,7 +69,7 @@ private fun drawWorldMap(worldMap: HashMap<Position, Being>) {
     }
 
 
-fun combatLoop(player: Player, monster: Being, worldMap: HashMap<Position, Being>) {
+fun combatLoop(player: Player, monster: Monster, worldMap: HashMap<Position, Being>) {
     while (player.hp > 0 && monster.hp > 0) {
         println("""${player.name}'s health : ${player.hp}, ${monster.name}'s health: ${monster.hp}""")
         println("Choose your actions: ")
@@ -115,8 +114,7 @@ fun combatLoop(player: Player, monster: Being, worldMap: HashMap<Position, Being
             player.xp += monster.xp
             //check for level-up
             player.levelUp()
-            //REFACTOR THIS
-            //player.addItem(monster.drop)
+            player.addItem(monster.drop)
             fighting = false
             worldMap.remove(player.position)
         }

@@ -26,6 +26,7 @@ class Player (name: String,hp: Int,  var maxHp: Int, attack: Int, var mana: Int,
         }
     }
     fun addItem(potion: Potion) {
+        println("You've picked up a {$potion}")
         potionInventory.add(potion)
     }
     fun openInventory() {
@@ -45,15 +46,6 @@ class Player (name: String,hp: Int,  var maxHp: Int, attack: Int, var mana: Int,
         potionInventory.remove(potion)
     }
     fun playerMovement(){
-        /*
-        Removed function parameter because of the redundancy:
-        When calling a method over an object, the object is already
-        included, so there is no need to pass any of its attributes
-
-        Removed "this" references because of the redundancy:
-        If there are no local variables with the same name as attribute,
-        there is no need to use "this", since it is already reachable and default
-         */
         println("Choose where to move? (up, down, left, right): {x:${position.x}, y: ${position.y}}")
         var movementInput = readln()
         when (movementInput.lowercase().trim()) {
