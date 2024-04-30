@@ -43,6 +43,8 @@ fun main() {
             fighting = true
             combatLoop(player, monster, worldMap)
         }
+        worldMap.remove(player.position)
+        worldMap[player.position] = player
         drawWorldMap(worldMap)
         player.playerMovement()
     }
