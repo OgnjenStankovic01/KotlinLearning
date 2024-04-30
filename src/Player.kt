@@ -54,13 +54,13 @@ class Player (name: String,hp: Int,  var maxHp: Int, attack: Int, var mana: Int,
         If there are no local variables with the same name as attribute,
         there is no need to use "this", since it is already reachable and default
          */
-        println("Choose where to move? (North, south, east, west): {x:${position.x}, y: ${position.y}}")
+        println("Choose where to move? (up, down, left, right): {x:${position.x}, y: ${position.y}}")
         var movementInput = readln()
         when (movementInput.lowercase().trim()) {
-            "north" -> position.y += 1
-            "south" -> position.y -=1
-            "east" -> position.x -=1
-            "west" -> position.x += 1
+            "right" -> position.y += 1
+            "left" -> position.y -=1
+            "up" -> position.x -=1
+            "down" -> position.x += 1
             else -> println("Choose a proper direction. ")
         }
     }
