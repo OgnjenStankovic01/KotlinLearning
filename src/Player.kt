@@ -16,7 +16,7 @@ class Player (name: String,hp: Int,  var maxHp: Int, attack: Int, var mana: Int,
         }
     }
     fun levelUp(){
-        val xpThreshold: Int = 30
+        val xpThreshold= 30
         if (xp == xpThreshold){
             println("You've levelled up!")
             level += 1
@@ -49,7 +49,7 @@ class Player (name: String,hp: Int,  var maxHp: Int, attack: Int, var mana: Int,
         println("Choose where to move? (up, down, left, right): {x:${position.x}, y: ${position.y}}")
         var movementInput = readln()
         when (movementInput.lowercase().trim()) {
-            "right" -> position.setY(y+1)
+            "right" -> position.y +=1
             "left" -> position.y -=1
             "up" -> position.x -=1
             "down" -> position.x += 1
