@@ -17,28 +17,25 @@ fun main() {
     var goblin2 = Monster("Goblin", 40, 10, 20, drop, 'ĝ')
 
     // Initialize the initial world map
-    var worldMap: HashMap<Position, Being> = hashMapOf()
-    fun checkMap(player: Player) {
-        // Check if the player's position meets certain conditions to update the world map
-        if (player.position.x < 0 && player.position.x > -6) {
-            worldMap = hashMapOf(
-                Position(2, 4) to ghoul2,
-                Position(2, 1) to orc2,
-                Position(1, 2) to skeleton2,
-                Position(5, 3) to goblin2
-            )
-        }else {
-            worldMap=hashMapOf(
-                Position(-1, -1) to ghoul1,
-                Position(-2, -2) to orc1,
-                Position(-3, 2) to skeleton1,
-                Position(-5, -1) to goblin1
-            )
-        }
-    }
-
+    var worldMap: HashMap<Position, Being>
     // Exploring the map and encountering monsters
     while (!fighting) {
+        if(player.position.x < 0 && player.position.x >= -5) {
+            worldMap = hashMapOf(
+                Position(-1, 1) to ghoul1,
+                Position(-2, 2) to orc1,
+                Position(-3, 2) to skeleton1,
+                Position(-5, 1) to goblin1
+            )
+
+        } else {
+            worldMap = hashMapOf(
+                Position(2, 4) to ghoul1,
+                Position(2, 1) to orc1,
+                Position(1, 2) to skeleton1,
+                Position(5, 3) to goblin1
+            )
+        }
         // Check if the player encounters a monster
         if (worldMap.containsKey(player.position) && worldMap.getValue(player.position) != player) {
             println("You've encountered a monster")
@@ -52,8 +49,6 @@ fun main() {
         worldMap[player.position] = player
         // Draw the world map
         drawWorldMap(worldMap, player)
-        // Check and update the map based on the player's position
-        checkMap(player)
         // Move the player
         player.playerMovement()
     }
@@ -61,6 +56,7 @@ fun main() {
 
 private fun drawWorldMap(worldMap: HashMap<Position, Being>, player: Player) {
     if(player.position.x in 0..5 || player.position.y in 0..5){
+        println("First map")
         for (x in 0..5) {
             for (y in 0..5) {
                 var currentPos = Position(x, y)
@@ -76,7 +72,7 @@ private fun drawWorldMap(worldMap: HashMap<Position, Being>, player: Player) {
             println()
         }
     } else if (player.position.x < 0 && player.position.x <= -5){
-        println("Other map")
+        println("Second map")
         for (x in -5..0) {
             for (y in -5..0) {
                 var currentPos = Position(x, y)
