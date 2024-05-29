@@ -1,4 +1,4 @@
-class Player (name: String,hp: Int,  var maxHp: Int, attack: Int, var mana: Int, var level: Int, xp: Int, var potionInventory: MutableList<Potion>, var position: Position,icon: Char ) : Being(name, hp, attack, xp, icon) {
+class Player (name: String, hp: Int, var maxHp: Int, attack: Int, var mana: Int, var level: Int, xp: Int, var potionInventory: MutableList<Potion>, var position: Position, icon: Char) : Being(name, hp, attack, xp, icon), Observer{
     fun Attack(monster: Being){
         if (hp >0 && monster.hp > 0){
             println("You attack the monster for " + attack * level+ " damage!")
@@ -46,6 +46,7 @@ class Player (name: String,hp: Int,  var maxHp: Int, attack: Int, var mana: Int,
         potionInventory.remove(potion)
     }
     fun playerMovement(){
+        // x and y are fucked fix this
         println("Choose where to move? (up, down, left, right): {x:${position.x}, y: ${position.y}}")
         var movementInput = readln()
         when (movementInput.lowercase().trim()) {
@@ -57,5 +58,14 @@ class Player (name: String,hp: Int,  var maxHp: Int, attack: Int, var mana: Int,
         }
     }
 
+    class BooleanObserver : Observer {
+        var myBoolean = false
+            private set
+
+        override fun update() {
+            myBoolean = true
+            println("myBoolean has been set to $myBoolean")
+        }
+    }
 
 }

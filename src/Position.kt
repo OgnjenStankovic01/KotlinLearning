@@ -1,4 +1,4 @@
-class Position(var x: Int, var y: Int) {
+class Position(var x: Int, var y: Int){
     override fun equals(other: Any?): Boolean {
         if (other is Position)
             if ((this.x == other.x) and (this.y == other.y))
@@ -11,4 +11,5 @@ class Position(var x: Int, var y: Int) {
         result = 31 * result + y
         return result
     }
+
 }
